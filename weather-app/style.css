@@ -1,0 +1,140 @@
+/* Osnovno resetovanje i font */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+	background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #333;
+}
+
+/* Stilizacija forme za pretragu */
+.formWeather {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 20px;
+	background: rgba(255, 255, 255, 0.2);
+	padding: 10px;
+	border-radius: 30px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.formWeather input {
+	padding: 12px 20px;
+	border: none;
+	border-radius: 20px;
+	outline: none;
+	font-size: 16px;
+	width: 250px;
+	transition: box-shadow 0.3s ease;
+}
+
+.formWeather input:focus {
+	box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.formWeather button {
+	padding: 12px 25px;
+	border: none;
+	border-radius: 20px;
+	background-color: #ffffff;
+	color: #333;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	transition:
+		background-color 0.3s ease,
+		transform 0.1s ease;
+}
+
+.formWeather button:hover {
+	background-color: #f0f0f0;
+}
+
+.formWeather button:active {
+	transform: scale(0.95);
+}
+
+/* Stilizacija kartice sa vremenom */
+.card {
+	background-color: rgba(255, 255, 255, 0.9);
+	padding: 40px;
+	border-radius: 20px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+	text-align: center;
+	width: 320px;
+	backdrop-filter: blur(10px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.cityDisplay {
+	font-size: 32px;
+	font-weight: 700;
+	margin-bottom: 10px;
+	color: #2c3e50;
+}
+
+.weatherDisplayInC {
+	font-size: 28px;
+	font-weight: bold;
+	color: #e74c3c;
+	margin: 10px 0 5px 0;
+}
+
+.weatherDisplayInF {
+	display: none;
+	font-size: 28px;
+	color: #7f8c8d;
+	margin-bottom: 15px;
+}
+.weatherIconDisplay {
+	font-size: 2rem;
+	margin: 15px 0;
+	filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+.toggleTempButton {
+	padding: 12px 25px;
+	border: none;
+	border-radius: 20px;
+	background-color: #27bbff;
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	transition:
+		background-color 0.3s ease,
+		transform 0.1s ease;
+}
+.weatherHumidityDisplay,
+.weatherWindSpeedDisplay {
+	font-size: 16px;
+	color: #555;
+	margin: 8px 0;
+	font-weight: 500;
+}
+
+.descDisplay {
+	font-size: 20px;
+	color: rgb(160, 160, 160);
+	margin: 10px;
+}
+
+.error {
+	color: red;
+	font-size: 2.5rem;
+}
+
+.none {
+	display: none;
+}
