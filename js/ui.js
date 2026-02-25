@@ -54,6 +54,7 @@ export function displayWeather(data) {
 	descriptionDisplay.classList.add("descDisplay");
 	weatherIcon.classList.add("weatherIconDisplay");
 	toggleTempDisplay.classList.add("toggleTempButton");
+	favouriteButton.classList.add("favouriteButton");
 
 	cityDisplay.textContent = name;
 	weatherDisplayInC.textContent = `${celsius}°C`;
@@ -66,7 +67,16 @@ export function displayWeather(data) {
 	favouriteButton.textContent = "Add to favourite";
 
 	toggleTempDisplay.addEventListener("click", toggleTemperature);
-	favouriteButton.addEventListener("click", () => favouriteCity(lastId));
+	if (existingCity) {
+		favouriteButton.addEventListener("click", (event) =>
+			favouriteCity(existingCity.id, event),
+		);
+	} else {
+		favouriteButton.addEventListener("click", (event) =>
+			favouriteCity(lastId, event),
+		);
+	}
+
 	card.style.background = getBackgroundColor(id);
 	card.append(
 		cityDisplay,
@@ -97,8 +107,29 @@ export function toggleTemperature() {
 	}
 }
 
-export function favouriteCity(id) {
-	console.log(id);
+export function favouriteCity(id, event) {
+	let button = event.currentTarget;
+	const cities = JSON.parse(localStorage.getItem("cities")) || [];
+	const city = cities.find((c) => c.id === id);
+
+	if (city) {
+		let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+		const exists = favourites.some((fav) => fav.city_id === id);
+
+		if (!exists) {
+			const cityData = {
+				city_id: id,
+				name: city.name,
+				description: city.desc,
+			};
+			favourites.push(cityData);
+			localStorage.setItem("favourites", JSON.stringify(favourites));
+		}
+
+		button.disabled = true;
+		button.classList.add("disabledButton");
+		button.textContent = "Successfully added";
+	}
 }
 
 export function displayError(message) {
