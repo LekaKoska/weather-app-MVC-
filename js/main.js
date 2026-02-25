@@ -1,5 +1,10 @@
 import { getWeather } from "./api.js";
-import { displayWeather, toggleTemperature, displayError } from "./ui.js";
+import {
+	displayWeather,
+	toggleTemperature,
+	displayError,
+	favouriteCity,
+} from "./ui.js";
 
 const formWeather = document.querySelector(".formWeather");
 export const card = document.querySelector(".card");

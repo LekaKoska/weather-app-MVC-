@@ -21,6 +21,7 @@ export function displayWeather(data) {
 	const windSpeedDisplay = document.createElement("p");
 	const descriptionDisplay = document.createElement("p");
 	const toggleTempDisplay = document.createElement("button");
+	const favouriteButton = document.createElement("button");
 
 	cityDisplay.classList.add("cityDisplay");
 	weatherDisplayInC.classList.add("weatherDisplayInC");
@@ -39,8 +40,10 @@ export function displayWeather(data) {
 	windSpeedDisplay.textContent = `Wind speed: ${speed} km/h`;
 	descriptionDisplay.textContent = `Description: ${description}`;
 	toggleTempDisplay.textContent = "Toggle °C / °F";
+	favouriteButton.textContent = "Add to favourite";
 
 	toggleTempDisplay.addEventListener("click", toggleTemperature);
+	favouriteButton.addEventListener("click", favouriteCity);
 	card.style.background = getBackgroundColor(id);
 	card.append(
 		cityDisplay,
@@ -51,6 +54,7 @@ export function displayWeather(data) {
 		humidityDisplay,
 		windSpeedDisplay,
 		descriptionDisplay,
+		favouriteButton,
 	);
 }
 
@@ -65,6 +69,10 @@ export function toggleTemperature() {
 		celsius.style.display = "block";
 		fahrenheit.style.display = "none";
 	}
+}
+
+export function favouriteCity() {
+	console.log("RADI");
 }
 
 export function displayError(message) {
