@@ -13,6 +13,29 @@ export function displayWeather(data) {
 	const celsius = (temp - 273.15).toFixed(1);
 	const fahrenheit = (((temp - 273.15) * 9) / 5 + 32).toFixed(1);
 
+	const cities = JSON.parse(localStorage.getItem("cities")) || [];
+	let lastId = Number(localStorage.getItem("lastId") || 0);
+
+	let city_id;
+	let existingCity = cities.find(
+		(city) => city.name.toLowerCase() === name.toLowerCase(),
+	);
+
+	if (existingCity) {
+		city_id = existingCity.id;
+	} else {
+		lastId++;
+		city_id = lastId;
+
+		const newCity = {
+			id: city_id,
+			name: name,
+			temp: celsius,
+			desc: description,
+		};
+		cities.push(newCity);
+	}
+
 	const cityDisplay = document.createElement("h1");
 	const weatherDisplayInC = document.createElement("p");
 	const weatherDisplayInF = document.createElement("p");
@@ -43,7 +66,7 @@ export function displayWeather(data) {
 	favouriteButton.textContent = "Add to favourite";
 
 	toggleTempDisplay.addEventListener("click", toggleTemperature);
-	favouriteButton.addEventListener("click", favouriteCity);
+	favouriteButton.addEventListener("click", () => favouriteCity(lastId));
 	card.style.background = getBackgroundColor(id);
 	card.append(
 		cityDisplay,
@@ -56,6 +79,9 @@ export function displayWeather(data) {
 		descriptionDisplay,
 		favouriteButton,
 	);
+
+	localStorage.setItem("cities", JSON.stringify(cities));
+	localStorage.setItem("lastId", lastId);
 }
 
 export function toggleTemperature() {
@@ -71,8 +97,8 @@ export function toggleTemperature() {
 	}
 }
 
-export function favouriteCity() {
-	console.log("RADI");
+export function favouriteCity(id) {
+	console.log(id);
 }
 
 export function displayError(message) {
