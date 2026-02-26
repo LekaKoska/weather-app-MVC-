@@ -179,3 +179,30 @@ body {
 .none {
 	display: none;
 }
+
+.favourites {
+	display: inline-block;
+}
+
+.favourites a {
+	display: inline-block;
+	padding: 10px 20px;
+	border-radius: 8px;
+	background: linear-gradient(135deg, #2962ff, #448aff);
+	color: white;
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 14px;
+	transition: all 0.25s ease;
+	box-shadow: 0 4px 12px rgba(41, 98, 255, 0.3);
+}
+
+.favourites a:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 18px rgba(41, 98, 255, 0.4);
+	filter: brightness(1.05);
+}
+
+.favourites a:active {
+	transform: scale(0.96);
+}
