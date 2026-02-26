@@ -148,6 +148,19 @@ body {
 		background-color 0.3s ease,
 		transform 0.1s ease;
 }
+.unfavouriteButton {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 17px;
+	background-color: #ee3a2d;
+	color: #535252;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	transition:
+		background-color 0.3s ease,
+		transform 0.1s ease;
+}
 
 .favouriteButton button:hover {
 	background-color: #9ea01a;
