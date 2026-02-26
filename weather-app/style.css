@@ -181,6 +181,7 @@ body {
 }
 
 .favourites {
+	margin: 15px;
 	display: inline-block;
 }
 
@@ -205,4 +206,17 @@ body {
 
 .favourites a:active {
 	transform: scale(0.96);
+}
+.cards-container button {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 17px;
+	background-color: #d3d3d3;
+	color: #242424;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	transition:
+		background-color 0.3s ease,
+		transform 0.1s ease;
 }
