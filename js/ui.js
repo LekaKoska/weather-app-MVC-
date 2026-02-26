@@ -141,7 +141,3 @@ export function displayError(message) {
 	card.style.display = "flex";
 	card.appendChild(errorDisplay);
 }
-
-export function favourites() {
-	console.log(localStorage.getItem("favourites"));
-}
