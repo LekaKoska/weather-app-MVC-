@@ -7,26 +7,21 @@ export function displayWeather(data) {
 		wind: { speed },
 		weather: [{ id, description }],
 	} = data;
-
 	card.textContent = "";
 	card.classList.remove("none");
 	const celsius = (temp - 273.15).toFixed(1);
 	const fahrenheit = (((temp - 273.15) * 9) / 5 + 32).toFixed(1);
-
 	const cities = JSON.parse(localStorage.getItem("cities")) || [];
 	let lastId = Number(localStorage.getItem("lastId") || 0);
-
 	let city_id;
 	let existingCity = cities.find(
 		(city) => city.name.toLowerCase() === name.toLowerCase(),
 	);
-
 	if (existingCity) {
 		city_id = existingCity.id;
 	} else {
 		lastId++;
 		city_id = lastId;
-
 		const newCity = {
 			id: city_id,
 			name: name,
@@ -54,7 +49,15 @@ export function displayWeather(data) {
 	descriptionDisplay.classList.add("descDisplay");
 	weatherIcon.classList.add("weatherIconDisplay");
 	toggleTempDisplay.classList.add("toggleTempButton");
-	favouriteButton.classList.add("favouriteButton");
+	const favouriteCities = JSON.parse(localStorage.getItem("favourites")) || [];
+	const exists = favouriteCities.some((fav) => fav.city_id === city_id);
+	if (!exists) {
+		favouriteButton.textContent = "Add to favourite";
+		favouriteButton.classList.add("favouriteButton");
+	} else {
+		favouriteButton.textContent = "Unfavourite";
+		favouriteButton.classList.add("unfavouriteButton");
+	}
 
 	cityDisplay.textContent = name;
 	weatherDisplayInC.textContent = `${celsius}°C`;
@@ -64,7 +67,6 @@ export function displayWeather(data) {
 	windSpeedDisplay.textContent = `Wind speed: ${speed} km/h`;
 	descriptionDisplay.textContent = `Description: ${description}`;
 	toggleTempDisplay.textContent = "Toggle °C / °F";
-	favouriteButton.textContent = "Add to favourite";
 
 	toggleTempDisplay.addEventListener("click", toggleTemperature);
 	if (existingCity) {
@@ -76,7 +78,6 @@ export function displayWeather(data) {
 			favouriteCity(lastId, event),
 		);
 	}
-
 	card.style.background = getBackgroundColor(id);
 	card.append(
 		cityDisplay,
@@ -89,7 +90,6 @@ export function displayWeather(data) {
 		descriptionDisplay,
 		favouriteButton,
 	);
-
 	localStorage.setItem("cities", JSON.stringify(cities));
 	localStorage.setItem("lastId", lastId);
 }
@@ -97,7 +97,6 @@ export function displayWeather(data) {
 export function toggleTemperature() {
 	const celsius = document.querySelector(".weatherDisplayInC");
 	const fahrenheit = document.querySelector(".weatherDisplayInF");
-
 	if (celsius.style.display !== "none") {
 		celsius.style.display = "none";
 		fahrenheit.style.display = "block";
@@ -111,11 +110,9 @@ export function favouriteCity(id, event) {
 	let button = event.currentTarget;
 	const cities = JSON.parse(localStorage.getItem("cities")) || [];
 	const city = cities.find((c) => c.id === id);
-
 	if (city) {
 		let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
 		const exists = favourites.some((fav) => fav.city_id === id);
-
 		if (!exists) {
 			const cityData = {
 				city_id: id,
@@ -124,11 +121,24 @@ export function favouriteCity(id, event) {
 			};
 			favourites.push(cityData);
 			localStorage.setItem("favourites", JSON.stringify(favourites));
+			button.textContent = "Unfavourite";
+			button.classList.remove("favouriteButton");
+			button.classList.add("unfavouriteButton");
+		} else {
+			unfavouriteCity(id, button);
 		}
+	}
+}
 
-		button.disabled = true;
-		button.classList.add("disabledButton");
-		button.textContent = "Successfully added";
+export function unfavouriteCity(id, button) {
+	let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+	const updatedFavourites = favourites.filter((fav) => fav.city_id !== id);
+	localStorage.setItem("favourites", JSON.stringify(updatedFavourites));
+	if (button) {
+		button.textContent = "Add to favourite";
+		button.classList.remove("unfavouriteButton");
+		button.classList.add("favouriteButton");
+		button.classList.remove("disabledButton");
 	}
 }
 
@@ -136,7 +146,6 @@ export function displayError(message) {
 	const errorDisplay = document.createElement("p");
 	errorDisplay.classList.add("error");
 	errorDisplay.textContent = message;
-
 	card.textContent = "";
 	card.style.display = "flex";
 	card.appendChild(errorDisplay);
