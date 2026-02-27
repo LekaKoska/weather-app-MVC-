@@ -20,6 +20,8 @@ formWeather.addEventListener("submit", async (event) => {
 		try {
 			const weatherData = await getWeather(city);
 			displayWeather(weatherData);
+
+			window.history.pushState({}, "", `?city=${city}`);
 		} catch (e) {
 			displayError(e);
 		}
@@ -27,3 +29,12 @@ formWeather.addEventListener("submit", async (event) => {
 		displayError("Enter a valid city");
 	}
 });
+
+const params = new URLSearchParams(window.location.search);
+const cityFromUrl = params.get("city");
+
+if (cityFromUrl) {
+	getWeather(cityFromUrl)
+		.then((data) => displayWeather(data))
+		.catch((err) => displayError(err));
+}
