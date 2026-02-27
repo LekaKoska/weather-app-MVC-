@@ -1,5 +1,6 @@
 import { getWeatherIcon, getBackgroundColor } from "./weatherUtils.js";
-import { card } from "./main.js";
+
+const card = document.querySelector(".card");
 export function displayWeather(data) {
 	const {
 		name: name,

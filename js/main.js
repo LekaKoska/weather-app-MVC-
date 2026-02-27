@@ -1,40 +1,41 @@
 import { getWeather } from "./api.js";
-import {
-	displayWeather,
-	toggleTemperature,
-	displayError,
-	favouriteCity,
-} from "./ui.js";
+import { displayWeather, displayError } from "./ui.js";
 
 const formWeather = document.querySelector(".formWeather");
-export const card = document.querySelector(".card");
 const cityInput = document.querySelector(".cityInput");
-const toggleTemp = document.querySelector(".toggleTempButton");
+
+async function updateWeather(city) {
+	if (!city || city.trim() === "") {
+		displayError("Please enter a valid city name");
+		return;
+	}
+	try {
+		const weatherData = await getWeather(city.trim());
+		displayWeather(weatherData);
+		const currentParams = new URLSearchParams(window.location.search);
+		if (currentParams.get("city") !== city) {
+			window.history.pushState({ city }, "", `?city=${city}`);
+		}
+	} catch (e) {
+		displayError(e);
+	}
+}
 
 formWeather.addEventListener("submit", async (event) => {
 	event.preventDefault();
-
-	const city = cityInput.value;
-
-	if (city) {
-		try {
-			const weatherData = await getWeather(city);
-			displayWeather(weatherData);
-
-			window.history.pushState({}, "", `?city=${city}`);
-		} catch (e) {
-			displayError(e);
-		}
-	} else {
-		displayError("Enter a valid city");
-	}
+	updateWeather(cityInput.value);
 });
 
-const params = new URLSearchParams(window.location.search);
-const cityFromUrl = params.get("city");
+const handleInitialLoad = () => {
+	const params = new URLSearchParams(window.location.search);
+	const cityFromUrl = params.get("city");
+	if (cityFromUrl) {
+		updateWeather(cityFromUrl);
+	}
+};
 
-if (cityFromUrl) {
-	getWeather(cityFromUrl)
-		.then((data) => displayWeather(data))
-		.catch((err) => displayError(err));
-}
+handleInitialLoad();
+
+window.addEventListener("popstate", (event) => {
+	handleInitialLoad();
+});
