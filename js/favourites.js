@@ -21,7 +21,7 @@ function renderEmpty() {
 function renderCard(city) {
 	const card = document.createElement("div");
 	card.classList.add("card");
-	card.dataset.cityId = city.city_id; // za permalink kasnije
+	card.dataset.cityName = city.name;
 
 	const cityDisplay = document.createElement("h1");
 	const descriptionDisplay = document.createElement("p");
@@ -41,9 +41,9 @@ function attachCardClickListener() {
 		const card = e.target.closest(".card");
 		if (!card) return;
 
-		const cityId = card.dataset.cityId;
-		// TODO: otvori permalink za cityId
-		console.log("Clicked city id:", cityId);
+		const cityName = card.dataset.cityName;
+
+		window.location.href = `/weather-app/index.html?city=${cityName}`;
 	});
 }
 
